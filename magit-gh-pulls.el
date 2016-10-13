@@ -61,6 +61,7 @@
 (require 'git-commit)
 (require 'gh)
 (require 'gh-pulls)
+(require 'gh-profile)
 (require 'pcache)
 (require 's)
 (require 'cl-lib)
@@ -213,7 +214,12 @@ config option."
         (when parsed
           (setq creds parsed))))))
 
+(defun magit-gh-pulls-get-profile-from-config ()
+  (magit-get "magit" "gh-pulls-profile")
+  )
+
 (defun magit-gh-pulls-guess-repo ()
+  (setq gh-profile-current-profile (magit-gh-pulls-get-profile-from-config))
   "Return (user . project) pair obtained either from explicit
 option, or inferred from remotes."
   (or (magit-gh-pulls-get-repo-from-config)
